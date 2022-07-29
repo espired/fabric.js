@@ -15,6 +15,9 @@
     "assert": true,
     "AbortController": true
   },
+  "plugins": [
+    "disallow-methods"
+  ],
   "rules": {
     "semi": 2,
     "eqeqeq": 2,
@@ -147,6 +150,18 @@
       {
         "ignoreComments": true
       }
+    ],
+    "disallow-methods/disallow-methods": [
+      2,
+      [
+        {
+          //  chrome does an unwanted calculation that affects percision
+          //  https://stackoverflow.com/questions/62931950/different-results-of-math-hypot-on-chrome-and-firefox
+          "object": "Math",
+          "method": "hypot",
+          "log": "Math.hypot is discouraged since chrome does an unwanted calculation that affects percision\nsee https://stackoverflow.com/questions/62931950/different-results-of-math-hypot-on-chrome-and-firefox"
+        }
+      ]
     ]
   }
 }
