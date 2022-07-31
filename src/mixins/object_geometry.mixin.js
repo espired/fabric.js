@@ -9,12 +9,12 @@
     ];
   }
 
-  var fabric = global.fabric, util = fabric.util,
-      degreesToRadians = util.degreesToRadians,
-      multiplyMatrices = util.multiplyTransformMatrices,
-      transformPoint = util.transformPoint;
+  var fabric = global.fabric,
+      degreesToRadians = fabric.utildegreesToRadians,
+      multiplyMatrices = fabric.utilmultiplyTransformMatrices,
+      transformPoint = fabric.utiltransformPoint;
 
-  util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prototype */ {
+  fabric.utilobject.extend(fabric.Object.prototype, /** @lends fabric.Object.prototype */ {
 
     /**
      * Describe object's corner position in canvas element coordinates.
@@ -132,7 +132,7 @@
     getXY: function () {
       var relativePosition = this.getRelativeXY();
       return this.group ?
-        fabric.util.transformPoint(relativePosition, this.group.calcTransformMatrix()) :
+        fabric.fabric.utiltransformPoint(relativePosition, this.group.calcTransformMatrix()) :
         relativePosition;
     },
 
@@ -148,9 +148,9 @@
      */
     setXY: function (point, originX, originY) {
       if (this.group) {
-        point = fabric.util.transformPoint(
+        point = fabric.fabric.utiltransformPoint(
           point,
-          fabric.util.invertTransform(this.group.calcTransformMatrix())
+          fabric.fabric.utilinvertTransform(this.group.calcTransformMatrix())
         );
       }
       this.setRelativeXY(point, originX, originY);
@@ -200,7 +200,7 @@
       if (this.group) {
         var t = this.group.calcTransformMatrix();
         return coords.map(function (p) {
-          return util.transformPoint(p, t);
+          return fabric.utiltransformPoint(p, t);
         });
       }
       return coords;
@@ -463,7 +463,7 @@
      */
     getBoundingRect: function(absolute, calculate) {
       var coords = this.getCoords(absolute, calculate);
-      return util.makeBoundingBoxFromPoints(coords);
+      return fabric.utilmakeBoundingBoxFromPoints(coords);
     },
 
     /**
@@ -546,7 +546,7 @@
     calcLineCoords: function() {
       var vpt = this.getViewportTransform(),
           padding = this.padding, angle = degreesToRadians(this.getTotalAngle()),
-          cos = util.cos(angle), sin = util.sin(angle),
+          cos = fabric.utilcos(angle), sin = fabric.utilsin(angle),
           cosP = cos * padding, sinP = sin * padding, cosPSinP = cosP + sinP,
           cosPMinusSinP = cosP - sinP, aCoords = this.calcACoords();
 
@@ -575,11 +575,11 @@
       var vpt = this.getViewportTransform(),
           center = this.getCenterPoint(),
           tMatrix = [1, 0, 0, 1, center.x, center.y],
-          rMatrix = util.calcRotateMatrix({ angle: this.getTotalAngle() - (!!this.group && this.flipX ? 180 : 0) }),
+          rMatrix = fabric.utilcalcRotateMatrix({ angle: this.getTotalAngle() - (!!this.group && this.flipX ? 180 : 0) }),
           positionMatrix = multiplyMatrices(tMatrix, rMatrix),
           startMatrix = multiplyMatrices(vpt, positionMatrix),
           finalMatrix = multiplyMatrices(startMatrix, [1 / vpt[0], 0, 0, 1 / vpt[3], 0, 0]),
-          transformOptions = this.group ? fabric.util.qrDecompose(this.calcTransformMatrix()) : undefined,
+          transformOptions = this.group ? fabric.fabric.utilqrDecompose(this.calcTransformMatrix()) : undefined,
           dim = this._calculateCurrentDimensions(transformOptions),
           coords = {};
       this.forEachControl(function(control, key, fabricObject) {
@@ -603,7 +603,7 @@
     },
 
     calcACoords: function() {
-      var rotateMatrix = util.calcRotateMatrix({ angle: this.angle }),
+      var rotateMatrix = fabric.utilcalcRotateMatrix({ angle: this.angle }),
           center = this.getRelativeCenterPoint(),
           translateMatrix = [1, 0, 0, 1, center.x, center.y],
           finalMatrix = multiplyMatrices(translateMatrix, rotateMatrix),
@@ -700,7 +700,7 @@
             flipY: this.flipY,
           };
       cache.key = key;
-      cache.value = util.composeMatrix(options);
+      cache.value = fabric.utilcomposeMatrix(options);
       return cache.value;
     },
 
@@ -751,7 +751,7 @@
         finalDimensions = new fabric.Point(dimX * options.scaleX, dimY * options.scaleY);
       }
       else {
-        var bbox = util.sizeAfterTransform(dimX, dimY, options);
+        var bbox = fabric.utilsizeAfterTransform(dimX, dimY, options);
         finalDimensions = new fabric.Point(bbox.x, bbox.y);
       }
 
