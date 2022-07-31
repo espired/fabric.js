@@ -1,4 +1,6 @@
 //@ts-nocheck
+import { fabric } from '../../HEADER';
+
 type EventRegistryObject = { [eventName: string]: Function };
 
 
@@ -139,3 +141,5 @@ export class Observable {
     }
   }
 }
+
+fabric.Observable = Observable;
