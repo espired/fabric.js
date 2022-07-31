@@ -202,4 +202,10 @@ fabric.initFilterBackend = function() {
   }
 };
 
+import { Observable } from './src/mixins/Observable';
+import { CommonMethods } from './src/mixins/CommonMethods';
+
+fabric.Observable = Observable;
+fabric.CommonMethods = CommonMethods;
+
 export { fabric };
