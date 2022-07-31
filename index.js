@@ -1,8 +1,12 @@
 import { fabric } from './HEADER';
 // import './lib/event'), // optional gestures
-import './src/mixins/Observable';
+import { Observable } from './src/mixins/Observable';
 import './src/mixins/collection.mixin';
-import './src/mixins/CommonMethods';
+import { CommonMethods } from './src/mixins/CommonMethods';
+
+fabric.Observable = Observable;
+fabric.CommonMethods = CommonMethods;
+
 import './src/util/misc';
 // import './src/util/named_accessors.mixin'; i would imagine dead forever or proper setters/getters
 import './src/util/path';
